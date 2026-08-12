@@ -1,0 +1,13 @@
+{
+  "slug": "aiquick-vpn",
+  "name": "AIQuick VPN",
+  "tagline": "A preinstalled OpenVPN client \u2014 import your own .ovpn and connect on demand. Never dials home.",
+  "categorySlug": "remote-access",
+  "license": "Apache-2.0",
+  "description": "A friendly, fully-offline OpenVPN client. Import your own .ovpn profile and the app manages connect, disconnect and live status with a tray indicator \u2014 nothing is dialed anywhere until you explicitly connect. No telemetry, no dial-home, no auto-update. Shells out to the system 'openvpn' binary when present and degrades with a clear message when it is not.",
+  "aiStack": "Python (tkinter + CLI), OpenVPN",
+  "platforms": [
+    "windows"
+  ],
+  "buildEntry": "aiquick_vpn_app.py"
+}

@@ -1,0 +1,5 @@
+# AIQuick VPN runtime deps — permissive/weak-copyleft only, no AGPL/proprietary.
+customtkinter>=5.2
+darkdetect>=0.8
+pystray>=0.19.4
+Pillow>=9.0
