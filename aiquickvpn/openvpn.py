@@ -564,6 +564,25 @@ class VPNConnection:
     def is_running(self) -> bool:
         return self._proc is not None and self._proc.poll() is None
 
+    def reconcile(self) -> str:
+        """Correct the reported state against the process that is really there.
+
+        State is otherwise inferred purely from openvpn's log output, so a
+        tunnel that ends without saying so -- the process crashing, being
+        killed from outside, or the peer dropping without a final log line --
+        leaves the UI claiming CONNECTED with nothing to contradict it. That
+        is worse than showing an error: the user believes their traffic is
+        going through a tunnel that is not there.
+
+        Returns the state after reconciling.
+        """
+        if self.state in (DISCONNECTED, ERROR):
+            return self.state
+        if self._proc is None or self._proc.poll() is not None:
+            self._proc = None
+            self._set_state(DISCONNECTED)
+        return self.state
+
     def stop(self, timeout: float = 8.0) -> None:
         """Tear the tunnel down (terminate the ``openvpn`` process).  Never raises."""
         proc = self._proc

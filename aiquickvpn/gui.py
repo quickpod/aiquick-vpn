@@ -261,6 +261,9 @@ def build_app():
             self._refresh_availability()
             self._refresh_profiles()
             self._apply_state(self._state)
+            # Log output is not a reliable end-of-tunnel signal, so the real
+            # process is checked on a timer as well.
+            self._watch_connection()
 
         def _refresh_availability(self):
             if ovpn.openvpn_available():
@@ -399,6 +402,32 @@ def build_app():
             else:
                 self.show("connection")
                 self._connect()
+
+        def _watch_connection(self):
+            """Keep the shown state honest about the process that exists.
+
+            Without this the UI can sit on "Connected" indefinitely after
+            openvpn has gone -- crashed, killed from outside, or ended without
+            a final log line. Claiming a tunnel that is not there is worse
+            than showing an error, because the user believes their traffic is
+            protected when it is not.
+            """
+            try:
+                conn = self._conn
+                if conn is not None:
+                    before = conn.state
+                    after = conn.reconcile()
+                    if after != before:
+                        self._log_write(
+                            "--- tunnel ended (openvpn is no longer running) ---")
+                        self._apply_state(after)
+                        self._conn = None
+            except Exception:
+                pass
+            try:
+                self.after(2000, self._watch_connection)
+            except Exception:
+                pass
 
         def _apply_state(self, state):
             self._state = state
