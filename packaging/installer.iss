@@ -1,6 +1,6 @@
 ; Inno Setup — AIQuick VPN. Signed single-file installer, compiled in CI.
 #define AppName "AIQuick VPN"
-#define AppVersion "1.0.2"
+#define AppVersion "1.0.5"
 
 [Setup]
 AppMutex=QuickOpen.AIQuickVPN
@@ -24,7 +24,7 @@ WizardSmallImageFile=branding\wizard-small.bmp
 AppCopyright=Apache-2.0. 100%% AI-built, published on QuickOpen (quickopen.ai).
 VersionInfoCompany=QuickOpen
 VersionInfoProductName=AIQuick VPN
-VersionInfoVersion=1.0.2.0
+VersionInfoVersion=1.0.5.0
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 ArchitecturesInstallIn64BitMode=x64compatible
